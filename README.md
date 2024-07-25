@@ -95,7 +95,7 @@ void app_main(void)
 
 ```CMake
 # Edit following two lines to set component requirements (see docs)
-set(COMPONENT_REQUIRES )
+set(COMPONENT_REQUIRES driver)
 set(COMPONENT_PRIV_REQUIRES )
 
 set(COMPONENT_SRCS "main.c")
