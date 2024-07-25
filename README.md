@@ -9,9 +9,8 @@
 
 ![รูปภาพ2](Pictures/รูปภาพ2.png)
 
-## 1. สร้าง folder สำหรับ project
+## 1.1 สร้าง folder สำหรับ project
 
-### 1.1  เปิด VSCODE แล้ว สร้าง folder  ใหม่เพื่อสร้าง  project
 
 1.1.1 เรียกเมนู file --> Open Folder... 
 
@@ -52,8 +51,7 @@ project(app-template)
 ```
 
 
-## 2. สร้าง folder สำหรับ component Main
-### 2.1 สร้าง folder  ใหม่สำหรับ component Main 
+## 1.2. สร้าง folder สำหรับ component Main
 
 1.2.1 สร้าง folder main
 
@@ -64,7 +62,62 @@ project(app-template)
 
 ![alt text](Pictures/image-6.png)
 
+```c
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/gpio.h"
+
+void app_main(void)
+{
+    gpio_set_direction(5, GPIO_MODE_OUTPUT);  // led 1
+    gpio_set_direction(GPIO_NUM_17, GPIO_MODE_INPUT);   // button 2
+    int button2 = 0;
+    while (1) {
+        button2 = gpio_get_level(GPIO_NUM_17);
+        printf("Button 2 = %d\n", button2);
+        if(button2 == 1)
+        {
+           gpio_set_level(5,1);     
+        }
+        else
+        {
+           gpio_set_level(5,0);     
+        }
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
+}
+```
+
+1.2.3 เพิ่มไฟล์ CMakeLists.txt ในโผลเดอร์ main
+
+![alt text](./Pictures/image-7.png)
+
+```CMake
+# Edit following two lines to set component requirements (see docs)
+set(COMPONENT_REQUIRES )
+set(COMPONENT_PRIV_REQUIRES )
+
+set(COMPONENT_SRCS "main.c")
+set(COMPONENT_ADD_INCLUDEDIRS "")
+
+register_component()
+```
+
+CMakeLists.txt ในโฟลเดอร์ main จะมีเนื้อหาไม่เหมือนกับ CMakeLists.txt ที่อยู่ใน folder รากของโปรเจค
+
+
+## 1.3. ทดสอบรัน project
+
+1.3.1 เลือกเครื่องมือที่จะใช้สร้าง project
+ 
+ ![alt text](./Pictures/image-8.png)
+
+เมื่อเลือกแล้ว จะแสดงรุ่นของเครื่องมือที่เลือก
+
+![alt text](./Pictures/image-9.png)
+
+1.3.2  Build project และทดสอบกับบอร์ดทดลอง
 
 
 
-## 3. ทดสอบรัน project
